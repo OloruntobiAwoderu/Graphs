@@ -13,18 +13,26 @@ class Graph:
         """
         Add a vertex to the graph.
         """
+        self.vertices[vertex_id] = set()
         pass  # TODO
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError('That index does not exist')
+
         pass  # TODO
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
+        return self.vertices[vertex_id]
+
         pass  # TODO
 
     def bft(self, starting_vertex):
@@ -32,6 +40,19 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited = set()
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for next_vertex in self.vertices[v]: 
+                    q.enqueue(next_vertex)
+
+            
+
         pass  # TODO
 
     def dft(self, starting_vertex):
@@ -39,6 +60,16 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        s = Stack()
+        s.push(starting_vertex)
+        visited = set()
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for next_vertex in self.vertices[v]:
+                    s.push(next_vertex)
         pass  # TODO
 
     def dft_recursive(self, starting_vertex):
@@ -48,6 +79,11 @@ class Graph:
 
         This should be done using recursion.
         """
+        if visited is None:
+            visited = set()
+        visited.add(starting_vertex)
+        print(starting_vertex)
+        for child_vert in self.vertices
         pass  # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
@@ -56,7 +92,24 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+        while q.size() > 0:
+            path = q.dequeue()
+            vert = path[-1]
+            if vert not in visited:
+                if vert == destination_vertex:
+                    return path
+            visited.add(vert)
+            for next_vertices in self.vertices[vert]:
+                new_path = list(path)
+                new_path.append(next_vertices)
+                q.enqueue(new_path)
+        return None
+   
+        
+      # TODO
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -64,9 +117,26 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = Stack()
+        s.push([starting_vertex])
+        visited = set()
+        while s.size() > 0:
+            path = s.pop()
+            vert = path[-1]
+            if vert not in visited:
+                if vert == destination_vertex:
+                    return path
+            visited.add(vert)
+            for next_vertices in self.vertices[vert]:
+                new_path = list(path)
+                new_path.append(next_vertices)
+                s.push(new_path)
+        return None
+   
+        
+         # TODO
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -74,7 +144,18 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # visited = None
+        # if visited is None:
+        #      visited = set()
+        # visited.add(starting_vertex)
+        # print(starting_vertex)
+        # edges = self.vertices[starting_vertex]
+        # for edge in edges:
+        #     if edge not in visited:
+        #         self.dfs_recursive(edge, visited)
+        
+       
+      
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
